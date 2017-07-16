@@ -9,7 +9,12 @@ gulp.task('clean', function() {
     .pipe(clean());
 });
 
-gulp.task('build', function() {
+gulp.task('move-templates', function() {
+  return gulp.src('server/templates/*')
+    .pipe(gulp.dest(tsProject.options.outDir + '/templates'));
+});
+
+gulp.task('build', ['move-templates'], function() {
   var tsResult = tsProject.src()
     .pipe(tsProject());
 
@@ -21,7 +26,7 @@ gulp.task('default', ['build'], function() {
   return pm2.connect(true, function() {
     pm2.start({
       name: 'server',
-      script: 'dist/server.js',
+      script: tsProject.options.outDir + '/server.js',
     }, function() {
       pm2.streamLogs('all', 0);
     });
