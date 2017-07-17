@@ -9,7 +9,7 @@ import {Request, Response} from "express";
  * GET /
  * Home page.
  */
-export let index = (req: Request, res: Response) => {
+export let generate = (req: Request, res: Response) => {
   var content = fs
     .readFileSync(__dirname + '/../templates/contrat_pret_cro.docx', 'binary');
 
