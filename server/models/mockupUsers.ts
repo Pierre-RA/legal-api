@@ -11,12 +11,12 @@ export class MockupUsers {
     this.userBase = [];
     this.userBase.push({
       id: 1,
-      name: 'admin',
-      password: 'simple-password-for-test-purpose-17-07',
+      name: 'pierre.repetto@gmail.com',
+      password: 'simple-admin-password-2017',
     });
     this.userBase.push({
       id: 2,
-      name: 'test',
+      name: 'test@test.com',
       password: 'simple-test-password-2017',
     });
   }
