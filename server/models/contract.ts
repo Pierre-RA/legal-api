@@ -45,7 +45,7 @@ export class Loan {
   }
 
   // TODO: use moment for dateLent
-  formatDate(key) {
+  formatDate(key: string) {
     if (key == "dateLent") {
       return this.dateLent
     }
