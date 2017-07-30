@@ -11,7 +11,7 @@ export class MockupUsers {
     this.userBase = [];
     this.userBase.push({
       id: 1,
-      name: 'pierre.repetto@gmail.com',
+      name: 'pierre@anthillsolutions.ch',
       password: 'simple-admin-password-2017',
     });
     this.userBase.push({
