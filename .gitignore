@@ -3,3 +3,4 @@ dist
 output
 output.docx
 node_modules
+.env

@@ -4,7 +4,7 @@ import * as bodyParser from 'body-parser';
 import * as jwt from 'jsonwebtoken';
 import * as passport from 'passport';
 import * as passportJWT from 'passport-jwt';
-import * as _ from 'lodash';
+import * as mongoose from 'mongoose';
 
 import { JwtOptions } from './models/jwtoptions';
 import { MockupUsers } from './models/mockupUsers';
@@ -13,8 +13,20 @@ import * as generatorController from './routes/generator.controller';
 import * as homeController from './routes/home.controller';
 import * as loginController from './routes/login.controller';
 
+import contactController from './routes/contacts/contact.controller';
+import contractController from './routes/contracts/contract.controller';
+
 dotenv.config();
 const JwtStrategy = passportJWT.Strategy;
+
+mongoose.connect(process.env.MONGODB_URI);
+mongoose.connection.on('error', () => {
+  console.error('MongoDB connection error. Please make sur MongoDB is running.');
+  process.exit();
+});
+mongoose.connection.on('open', () => {
+  console.log('MongoDB connection is open.');
+});
 
 const users = new MockupUsers();
 
@@ -42,6 +54,11 @@ app.all('*', (req: express.Request, res: express.Response, next: express.NextFun
   next();
 });
 
+app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.log(req.method + ' ' + req.url);
+  next();
+});
+
 app.get(
   '/',
   homeController.index
@@ -55,11 +72,13 @@ app.get(
   passport.authenticate('jwt', {session: false}),
   generatorController.generate
 );
+app.use('/contacts', contactController);
+app.use('/contracts', contractController);
 
 app.listen(app.get('port'), () => {
-  console.log(('  App is running at http://localhost:%d in %s mode'),
+  console.log(('App is running at http://localhost:%d in %s mode'),
     app.get('port'), app.get('env'));
-  console.log('  Press CTRL-C to stop\n');
+  console.log('Press CTRL-C to stop\n');
 });
 
 module.exports = app;
