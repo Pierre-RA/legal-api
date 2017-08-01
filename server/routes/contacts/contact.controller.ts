@@ -30,7 +30,7 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-  let contact = new Contact(JSON.parse(req.body.contact));
+  let contact = new Contact(JSON.parse(req.body));
   contact.save((err: any, doc: any) => {
     if (err) {
       return devError(err, res);
@@ -40,7 +40,7 @@ router.post('/', (req: express.Request, res: express.Response) => {
 });
 
 router.put('/:id', (req: express.Request, res: express.Response) => {
-  let contact = new Contact(JSON.parse(req.body.contact));
+  let contact = new Contact(JSON.parse(req.body));
   res.json({
     error: 'Not implemented yet.'
   });
