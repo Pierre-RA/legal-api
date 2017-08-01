@@ -1,7 +1,7 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 
-import Contact from '../../models/contact';
+import { Contact } from '../../models/contact';
 
 const router: express.Router = express.Router();
 
@@ -31,7 +31,7 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
 
 router.post('/', (req: express.Request, res: express.Response) => {
   let contact = new Contact(JSON.parse(req.body.contact));
-  contact.save((err, doc) => {
+  contact.save((err: any, doc: any) => {
     if (err) {
       return devError(err, res);
     }
@@ -47,7 +47,7 @@ router.put('/:id', (req: express.Request, res: express.Response) => {
 });
 
 router.delete('/:id', (req: express.Request, res: express.Response) => {
-  Contact.findByIdAndRemove(req.params.id, {}, (err, doc) => {
+  Contact.findByIdAndRemove(req.params.id, {}, (err: any, doc: any) => {
     if (err) {
       return devError(err, res);
     }

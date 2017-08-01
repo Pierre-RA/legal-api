@@ -19,7 +19,9 @@ import contractController from './routes/contracts/contract.controller';
 dotenv.config();
 const JwtStrategy = passportJWT.Strategy;
 
-mongoose.connect(process.env.MONGODB_URI);
+mongoose.connect(process.env.MONGODB_URI, {
+  useMongoClient: true
+});
 mongoose.connection.on('error', () => {
   console.error('MongoDB connection error. Please make sur MongoDB is running.');
   process.exit();

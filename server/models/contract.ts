@@ -1,18 +1,26 @@
 import * as Mongoose from 'mongoose';
 
-import Contact from './contact';
+import { Contact, IContact, contactSchema } from './contact';
 
-interface IContractModel extends Mongoose.Document {}
+interface IContractModel extends IContract, Mongoose.Document {}
+
+export interface IContract {
+  borrower: IContact,
+  lender: IContact,
+  loan: {
+    goal: String,
+    hasGoal: Boolean,
+    hasLent: Boolean,
+    dateLent: Date,
+    currency: String,
+    amount: Number,
+    interest: Number,
+  }
+}
 
 let contractSchema = new Mongoose.Schema({
-  borrower: {
-    type: Mongoose.Schema.Types.ObjectId,
-    ref: 'Contact'
-  },
-  lender: {
-    type: Mongoose.Schema.Types.ObjectId,
-    ref: 'Contact'
-  },
+  borrower: contactSchema,
+  lender: contactSchema,
   loan: {
     goal: String,
     hasGoal: Boolean,
