@@ -20,8 +20,30 @@ router.get('/', (req: express.Request, res: express.Response) => {
   });
 });
 
+router.get('/count', (req: express.Request, res: express.Response) => {
+  Contract.count((err: any, count: any) => {
+    if (err) {
+      return devError(err, res);
+    }
+    return res.json({
+      count: count
+    });
+  });
+});
+
+router.get('/count/:type', (req: express.Request, res: express.Response) => {
+  Contract.find({ type: req.params.type }).count((err, count) => {
+    if (err) {
+      return devError(err, res);
+    }
+    return res.json({
+      count: count
+    });
+  });
+});
+
 router.get('/:id', (req: express.Request, res: express.Response) => {
-  Contract.findOne({ id: req.params.id }, (err, doc) => {
+  Contract.findOne({ _id: req.params.id }, (err, doc) => {
     if (err) {
       return devError(err, res);
     }
@@ -30,7 +52,7 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-  let contract = new Contract(JSON.parse(req.body.contract));
+  let contract = new Contract(req.body);
   contract.save((err, doc) => {
     if (err) {
       return devError(err, res);
@@ -40,7 +62,7 @@ router.post('/', (req: express.Request, res: express.Response) => {
 });
 
 router.put('/:id', (req: express.Request, res: express.Response) => {
-  let contract = new Contract(JSON.parse(req.body.contract));
+  let contract = new Contract(req.body.contract);
   res.json({
     error: 'Not implemented yet.'
   });

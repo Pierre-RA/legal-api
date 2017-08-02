@@ -52,7 +52,6 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', (req: express.Request, res: express.Response) => {
-  console.log(req.body);
   let contact = new Contact(req.body);
   contact.save((err: any, doc: any) => {
     if (err) {

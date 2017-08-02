@@ -7,6 +7,7 @@ interface IContractModel extends IContract, Mongoose.Document {}
 export interface IContract {
   borrower: IContact,
   lender: IContact,
+  type: Number,
   loan: {
     goal: String,
     hasGoal: Boolean,
