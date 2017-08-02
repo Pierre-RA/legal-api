@@ -21,7 +21,7 @@ router.get('/', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/count', (req: express.Request, res: express.Response) => {
-  Contact.count((err, count) => {
+  Contact.count((err: any, count: any) => {
     if (err) {
       return devError(err, res);
     }
@@ -43,7 +43,7 @@ router.get('/count/:type', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/:id', (req: express.Request, res: express.Response) => {
-  Contact.findOne({ id: req.params.id }, (err, doc) => {
+  Contact.findOne({ _id: req.params.id }, (err, doc) => {
     if (err) {
       return devError(err, res);
     }
