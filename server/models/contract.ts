@@ -8,6 +8,7 @@ export interface IContract {
   borrower: IContact,
   lender: IContact,
   type: Number,
+  title: String,
   loan: {
     goal: String,
     hasGoal: Boolean,
