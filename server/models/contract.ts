@@ -23,6 +23,8 @@ export interface IContract {
 let contractSchema = new Mongoose.Schema({
   borrower: contactSchema,
   lender: contactSchema,
+  type: Number,
+  title: String,
   loan: {
     goal: String,
     hasGoal: Boolean,
