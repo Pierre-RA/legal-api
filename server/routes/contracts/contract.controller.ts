@@ -1,7 +1,12 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 
+import * as fs from 'fs';
+import * as Docxtemplater from 'docxtemplater';
+import * as JSZip from 'jszip';
+
 import Contract from '../../models/contract';
+import { exportContract } from '../../models/export';
 
 const router: express.Router = express.Router();
 
@@ -39,6 +44,26 @@ router.get('/count/:type', (req: express.Request, res: express.Response) => {
     return res.json({
       count: count
     });
+  });
+});
+
+router.get('/export/:id', (req: express.Request, res: express.Response) => {
+  Contract.findOne({ _id: req.params.id }, (err, doc) => {
+    if (err) {
+      return devError(err, res);
+    }
+    let data = exportContract(doc);
+    let template = __dirname + '/../../templates/contrat_pret_cro.docx';
+    let file = generateFile(template, data);
+    let filename = 'contrat_pret_cro.docx';
+    let mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+    res.writeHead(200, {
+      'Content-Type': mimetype,
+      'Content-disposition': 'attachment;filename=' + filename,
+      'Content-Length': file.length
+    });
+    return res.end(new Buffer(file, 'binary'));
   });
 });
 
@@ -81,3 +106,19 @@ router.delete('/:id', (req: express.Request, res: express.Response) => {
 });
 
 export default router;
+
+function generateFile(template: string, data: Object) {
+  let content = fs.readFileSync(template, 'binary');
+  let zip = new JSZip(content);
+  let doc = new Docxtemplater();
+  doc.loadZip(zip);
+  doc.setData(data);
+  try {
+    doc.render();
+  } catch(error) {
+    throw new Error('Cannot parse template file: ' + error);
+  }
+  return doc.getZip().generate({
+    type: 'nodebuffer'
+  });
+}

@@ -2,6 +2,8 @@ interface IUser {
   id: number,
   name: string,
   password: string,
+  isAdmin: boolean,
+  contract: string,
 }
 
 export class MockupUsers {
@@ -13,11 +15,15 @@ export class MockupUsers {
       id: 1,
       name: 'pierre@anthillsolutions.ch',
       password: 'simple-admin-password-2017',
+      isAdmin: true,
+      contract: 'all-star',
     });
     this.userBase.push({
       id: 2,
-      name: 'test@test.com',
-      password: 'simple-test-password-2017',
+      name: 'test@legal.ch',
+      password: 'simple-password-2017',
+      isAdmin: false,
+      contract: 'simple',
     });
   }
 
