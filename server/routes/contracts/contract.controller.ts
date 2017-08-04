@@ -52,19 +52,19 @@ router.get('/export/:id', (req: express.Request, res: express.Response) => {
     if (err) {
       return devError(err, res);
     }
-    return res.json(exportContract(doc));
-    // let data = exportContract(doc);
-    // let template = __dirname + '/../../templates/contrat_pret_cro.docx';
-    // let file = generateFile(template, data);
-    // let filename = doc.title + '.docx';
-    // let mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    //
-    // res.writeHead(200, {
-    //   'Content-Type': mimetype,
-    //   'Content-disposition': 'attachment;filename=' + filename,
-    //   'Content-Length': file.length
-    // });
-    // return res.end(new Buffer(file, 'binary'));
+    // return res.json(exportContract(doc));
+    let data = exportContract(doc);
+    let template = __dirname + '/../../templates/contrat_pret_cro.docx';
+    let file = generateFile(template, data);
+    let filename = doc.title + '.docx';
+    let mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+
+    res.writeHead(200, {
+      'Content-Type': mimetype,
+      'Content-disposition': 'attachment;filename=' + filename,
+      'Content-Length': file.length
+    });
+    return res.end(new Buffer(file, 'binary'));
   });
 });
 
