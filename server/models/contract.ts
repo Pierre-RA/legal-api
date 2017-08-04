@@ -14,10 +14,14 @@ export interface IContract {
     hasGoal: Boolean,
     hasLent: Boolean,
     dateLent: Date,
-    currency: String,
-    amount: Number,
-    interest: Number,
-  }
+    datePayOff: Date,
+    currency: string,
+    amount: number,
+    interest: number,
+    length: Date,
+  },
+  date: Date,
+  place: String,
 }
 
 let contractSchema = new Mongoose.Schema({
@@ -30,10 +34,14 @@ let contractSchema = new Mongoose.Schema({
     hasGoal: Boolean,
     hasLent: Boolean,
     dateLent: Date,
+    datePayOff: Date,
     currency: String,
     amount: Number,
     interest: Number,
-  }
+    length: Date,
+  },
+  date: Date,
+  place: String,
 });
 
 const Contract = Mongoose.model<IContractModel>('Contract', contractSchema);

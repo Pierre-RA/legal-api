@@ -84,6 +84,7 @@
     "jsonwebtoken": "^7.4.1",
     "jszip": "^2.6.1",
     "lodash": "^4.17.4",
+    "moment": "^2.18.1",
     "mongoose": "^4.11.5",
     "passport": "^0.3.2",
     "passport-jwt": "^2.2.1",
