@@ -55,7 +55,7 @@ router.get('/export/:id', (req: express.Request, res: express.Response) => {
     let data = exportContract(doc);
     let template = __dirname + '/../../templates/contrat_pret_cro.docx';
     let file = generateFile(template, data);
-    let filename = 'contrat_pret_cro.docx';
+    let filename = doc.title + '.docx';
     let mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
     res.writeHead(200, {
