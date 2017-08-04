@@ -88,9 +88,12 @@ router.post('/', (req: express.Request, res: express.Response) => {
 });
 
 router.put('/:id', (req: express.Request, res: express.Response) => {
-  let contract = new Contract(req.body.contract);
-  res.json({
-    error: 'Not implemented yet.'
+  Contract.findOneAndUpdate(
+    { '_id': req.params.id }, req.body, {new: true}, (err: any, doc: any) => {
+    if (err) {
+      return devError(err, res);
+    }
+    return res.json(doc);
   });
 });
 
