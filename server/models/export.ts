@@ -21,7 +21,7 @@ export function exportContract(contract: IContract): object {
     goal: contract.loan.goal,
     hasLent: contract.loan.hasLent,
     dateLent: formatDate(contract, 'dateLent'),
-    datePayOff: formatDate(contract, 'datePayOff'),
+    datePayoff: formatDate(contract, 'datePayoff'),
     amountToLent: contract.loan.amount,
     payoffAmountCapital: payoffAmountCapital.toUpperCase(),
   }
