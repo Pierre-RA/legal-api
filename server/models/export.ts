@@ -17,6 +17,7 @@ export function exportContract(contract: IContract): object {
   let payoff: any = contract.loan.payoff;
   let lastDate = moment(payoff[payoff.length - 1].date);
   let firstDate = moment(contract.loan.dateLent);
+  let extendDate = moment(contract.loan.extendNegotiationDate);
   payoff = payoff.map(item => {
     return {
       amount: item.amount,
@@ -37,8 +38,7 @@ export function exportContract(contract: IContract): object {
     payoffAmountCapital: payoffAmountCapital.toUpperCase(),
     dateLent: formatDate(contract.loan.dateLent),
     duration: firstDate.from(lastDate, true),
-    // TODO: convert to duration
-    extendNegotiationDuration: contract.loan.extendNegotiationDate,
+    extendNegotiationDuration: firstDate.from(extendDate, true),
     // TODO: convert to duration
     silentDuration: contract.loan.silentDate,
     isSilent: (contract.loan.silentDate != null),
