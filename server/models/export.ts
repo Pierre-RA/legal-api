@@ -15,12 +15,13 @@ export function exportContract(contract: IContract): object {
     formatNumber(Math.floor(payoffAmount)) + ' ' +
     currencies[contract.loan.currency].plural;
   let payoff: any = contract.loan.payoff;
-  payoff.map(item => {
+  payoff = payoff.map(item => {
     return {
-      amount: item.amount,
+      amount: item.amount + 'as',
       date: formatDate(item.date),
     }
   });
+  console.log(payoff);
   return {
     borrower: getTitle(contract.borrower),
     lender: getTitle(contract.lender),
