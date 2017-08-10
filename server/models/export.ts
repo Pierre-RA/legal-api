@@ -15,6 +15,8 @@ export function exportContract(contract: IContract): object {
     formatNumber(Math.floor(payoffAmount)) + ' ' +
     currencies[contract.loan.currency].plural;
   let payoff: any = contract.loan.payoff;
+  let lastDate = moment(payoff[payoff.length - 1].date);
+  let firstDate = moment(contract.loan.dateLent);
   payoff = payoff.map(item => {
     return {
       amount: item.amount,
@@ -33,8 +35,8 @@ export function exportContract(contract: IContract): object {
     currency: contract.loan.currency,
     payoff: payoff,
     payoffAmountCapital: payoffAmountCapital.toUpperCase(),
-    // TODO: convert to duration
-    duration: contract.loan.length,
+    dateLent: formatDate(contract.loan.dateLent),
+    duration: firstDate.from(lastDate, true),
     // TODO: convert to duration
     extendNegotiationDuration: contract.loan.extendNegotiationDate,
     // TODO: convert to duration
