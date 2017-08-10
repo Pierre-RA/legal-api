@@ -4,25 +4,31 @@ import { Contact, IContact, contactSchema } from './contact';
 
 interface IContractModel extends IContract, Mongoose.Document {}
 
+export interface IPayoff {
+  date: Date;
+  amount: number;
+}
+
 export interface IContract {
   borrower: IContact,
   lender: IContact,
   type: Number,
   title: String,
   loan: {
-    goal: String,
-    hasGoal: Boolean,
-    hasLent: Boolean,
+    goal: string,
+    hasGoal: boolean,
+    hasLent: boolean,
     dateLent: Date,
-    datePayoff: Date,
     currency: string,
     amount: number,
     interest: number,
+    payoff: Array<IPayoff>,
     length: Date,
-    amountPayoff: number,
+    extendNegotiationDate: Date,
+    silentDate: Date,
   },
   date: Date,
-  place: String,
+  place: string,
 }
 
 let contractSchema = new Mongoose.Schema({
@@ -35,12 +41,16 @@ let contractSchema = new Mongoose.Schema({
     hasGoal: Boolean,
     hasLent: Boolean,
     dateLent: Date,
-    datePayoff: Date,
+    payoff: [{
+      date: Date,
+      amount: Number,
+    }],
     currency: String,
     amount: Number,
     interest: Number,
     length: Date,
-    amountPayoff: Number,
+    extendNegotiationDate: Date,
+    silentDate: Date,
   },
   date: Date,
   place: String,
