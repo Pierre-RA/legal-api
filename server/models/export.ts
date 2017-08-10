@@ -49,34 +49,34 @@ function getTitle(contact: IContact): string {
 
 function getPhysicalTitle(contact: IContact): string {
   let result = '';
-  result += '<w:p><w:r><w:t>';
+  // result += '<w:p><w:r><w:t>';
   result += contact.isMale ? 'Monsieur' : 'Madame';
   result += ' ' + contact.firstName + ' ' + contact.lastName;
   result += ' ';
   result += contact.isMale ? 'domicilié' : 'domiciliée';
   result += ' ';
   result += getAddress(contact);
-  result += '</w:t></w:r></w:p>';
+  // result += '</w:t></w:r></w:p>';
   return result;
 }
 
 function getMoralTitle(contact: IContact): string {
   let result = '';
-  result += '<w:p><w:r><w:t>';
+  // result += '<w:p><w:r><w:t>';
   result += contact.reason + ' sise à ' + getAddress(contact);
-  result += '</w:t></w:r></w:p>';
+  // result += '</w:t></w:r></w:p>';
   return result;
 }
 
 function getAddress(contact: IContact): string {
-  let result = '<w:br/>';
+  let result = '';
   result += contact.address.line1 ? contact.address.line1 : '';
-  result += contact.address.line2 ? ',<w:br/> ' + contact.address.line2 : '';
-  result += contact.address.line3 ? ',<w:br/> ' + contact.address.line3 : '';
-  result += contact.address.postCode ? ',<w:br/> ' + contact.address.postCode : '';
-  result += contact.address.city ? ',<w:br/> ' + contact.address.city : '';
-  result += contact.address.province ? ',<w:br/> ' + contact.address.province : '';
-  result += contact.address.country ? ',<w:br/> ' + contact.address.country : '';
+  result += contact.address.line2 ? ', ' + contact.address.line2 : '';
+  result += contact.address.line3 ? ', ' + contact.address.line3 : '';
+  result += contact.address.postCode ? ', ' + contact.address.postCode : '';
+  result += contact.address.city ? ', ' + contact.address.city : '';
+  result += contact.address.province ? ', ' + contact.address.province : '';
+  result += contact.address.country ? ', ' + contact.address.country : '';
   return result;
 }
 
