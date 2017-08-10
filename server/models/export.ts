@@ -14,10 +14,7 @@ export function exportContract(contract: IContract): object {
   let payoffAmountCapital =
     formatNumber(Math.floor(payoffAmount)) + ' ' +
     currencies[contract.loan.currency].plural;
-  // contract.datesPayoff.map(date => {
-  //   formatDate(date)
-  // });
-  return {
+  let result: any =  {
     borrower: getTitle(contract.borrower),
     lender: getTitle(contract.lender),
     hasGoal: contract.loan.hasGoal,
@@ -26,7 +23,7 @@ export function exportContract(contract: IContract): object {
     goal: contract.loan.goal,
     hasLent: contract.loan.hasLent,
     amountToLent: contract.loan.amount,
-    currency: currencies[contract.loan.currency].code,
+    currency: contract.loan.currency,
     payoff: contract.loan.payoff,
     payoffAmountCapital: payoffAmountCapital.toUpperCase(),
     // TODO: convert to duration
@@ -36,7 +33,11 @@ export function exportContract(contract: IContract): object {
     // TODO: convert to duration
     silentDuration: contract.loan.silentDate,
     isSilent: (contract.loan.silentDate != null),
-  }
+  };
+  result.payoff.forEach(item => {
+    item.date = formatDate(item.date);
+  })
+  return result;
 }
 
 function getTitle(contact: IContact): string {
@@ -69,7 +70,7 @@ function getAddress(contact: IContact): string {
   return result;
 }
 
-function formatDate(contract: IContract, key: string): string {
+function formatDate(date: Date): string {
   moment.locale('fr');
-  return moment(contract[key]).format('LL');
+  return moment(date).format('LL');
 }
