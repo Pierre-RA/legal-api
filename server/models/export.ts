@@ -26,6 +26,8 @@ export function exportContract(contract: IContract): object {
     goal: contract.loan.goal,
     hasLent: contract.loan.hasLent,
     amountToLent: contract.loan.amount,
+    currency: currencies[contract.loan.currency].code,
+    payoff: contract.loan.payoff,
     payoffAmountCapital: payoffAmountCapital.toUpperCase(),
     // TODO: convert to duration
     duration: contract.loan.length,
@@ -47,6 +49,16 @@ function getPhysicalTitle(contact: IContact): string {
   result += ' ';
   result += contact.isMale ? 'domicilié' : 'domiciliée';
   result += ' ';
+  result += getAddress(contact);
+  return result;
+}
+
+function getMoralTitle(contact: IContact): string {
+  return contact.reason + ' sise à ' + getAddress(contact);
+}
+
+function getAddress(contact: IContact): string {
+  let result = '';
   result += contact.address.line1 ? contact.address.line1 : '';
   result += contact.address.line2 ? ', ' + contact.address.line2 : '';
   result += contact.address.line3 ? ', ' + contact.address.line3 : '';
@@ -55,10 +67,6 @@ function getPhysicalTitle(contact: IContact): string {
   result += contact.address.province ? ', ' + contact.address.province : '';
   result += contact.address.country ? ', ' + contact.address.country : '';
   return result;
-}
-
-function getMoralTitle(contact: IContact): string {
-  return contact.reason + ' sise à ' + contact.address;
 }
 
 function formatDate(contract: IContract, key: string): string {
