@@ -17,11 +17,10 @@ export function exportContract(contract: IContract): object {
   let payoff: any = contract.loan.payoff;
   payoff = payoff.map(item => {
     return {
-      amount: item.amount + 'as',
+      amount: item.amount,
       date: formatDate(item.date),
     }
   });
-  console.log(payoff);
   return {
     borrower: getTitle(contract.borrower),
     lender: getTitle(contract.lender),
@@ -49,28 +48,35 @@ function getTitle(contact: IContact): string {
 }
 
 function getPhysicalTitle(contact: IContact): string {
-  let result = contact.isMale ? 'Monsieur' : 'Madame';
+  let result = '';
+  result += '<w:p><w:r><w:t>';
+  result += contact.isMale ? 'Monsieur' : 'Madame';
   result += ' ' + contact.firstName + ' ' + contact.lastName;
   result += ' ';
   result += contact.isMale ? 'domicilié' : 'domiciliée';
   result += ' ';
   result += getAddress(contact);
+  result += '</w:t></w:r></w:p>';
   return result;
 }
 
 function getMoralTitle(contact: IContact): string {
-  return contact.reason + ' sise à ' + getAddress(contact);
+  let result = '';
+  result += '<w:p><w:r><w:t>';
+  result += contact.reason + ' sise à ' + getAddress(contact);
+  result += '</w:t></w:r></w:p>';
+  return result;
 }
 
 function getAddress(contact: IContact): string {
-  let result = '';
+  let result = '<w:br/>';
   result += contact.address.line1 ? contact.address.line1 : '';
-  result += contact.address.line2 ? ', ' + contact.address.line2 : '';
-  result += contact.address.line3 ? ', ' + contact.address.line3 : '';
-  result += contact.address.postCode ? ', ' + contact.address.postCode : '';
-  result += contact.address.city ? ', ' + contact.address.city : '';
-  result += contact.address.province ? ', ' + contact.address.province : '';
-  result += contact.address.country ? ', ' + contact.address.country : '';
+  result += contact.address.line2 ? ',<w:br/> ' + contact.address.line2 : '';
+  result += contact.address.line3 ? ',<w:br/> ' + contact.address.line3 : '';
+  result += contact.address.postCode ? ',<w:br/> ' + contact.address.postCode : '';
+  result += contact.address.city ? ',<w:br/> ' + contact.address.city : '';
+  result += contact.address.province ? ',<w:br/> ' + contact.address.province : '';
+  result += contact.address.country ? ',<w:br/> ' + contact.address.country : '';
   return result;
 }
 
