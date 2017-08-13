@@ -1,4 +1,4 @@
-export const currencies = {
+export const currencies: any = {
   EUR: {
     singular: 'euro',
     plural: 'euros',

@@ -6,7 +6,7 @@ import { currencies } from './currencies';
 import { IContract } from './contract';
 import { IContact } from './contact';
 
-export function exportContract(contract: IContract): object {
+export function exportContract(contract: IContract): any {
   let payoffAmount = getFinanceNumber(
     (contract.loan.amount * contract.loan.interest / 100) +
     contract.loan.amount
@@ -19,7 +19,7 @@ export function exportContract(contract: IContract): object {
   let firstDate = moment(contract.loan.dateLent);
   let extendDate = moment(contract.loan.extendNegotiationDate);
   let silentDate = moment(contract.loan.silentDate);
-  payoff = payoff.map(item => {
+  payoff = payoff.map((item: any) => {
     return {
       amount: item.amount,
       date: formatDate(item.date),
