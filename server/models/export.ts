@@ -48,11 +48,11 @@ export function exportContract(contract: IContract): any {
   };
 }
 
-function getTitle(contact: IContact): string {
+export function getTitle(contact: IContact): string {
   return contact.type === 'physical' ? getPhysicalTitle(contact) : getMoralTitle(contact);
 }
 
-function getPhysicalTitle(contact: IContact): string {
+export function getPhysicalTitle(contact: IContact): string {
   let result = '';
   // result += '<w:p><w:r><w:t>';
   result += contact.isMale ? 'Monsieur' : 'Madame';
@@ -65,7 +65,7 @@ function getPhysicalTitle(contact: IContact): string {
   return result;
 }
 
-function getMoralTitle(contact: IContact): string {
+export function getMoralTitle(contact: IContact): string {
   let result = '';
   // result += '<w:p><w:r><w:t>';
   result += contact.reason + ' sise à ' + getAddress(contact);
@@ -73,7 +73,7 @@ function getMoralTitle(contact: IContact): string {
   return result;
 }
 
-function getAddress(contact: IContact): string {
+export function getAddress(contact: IContact): string {
   let result = '';
   result += contact.address.line1 ? contact.address.line1 : '';
   result += contact.address.line2 ? ', ' + contact.address.line2 : '';
@@ -85,7 +85,7 @@ function getAddress(contact: IContact): string {
   return result;
 }
 
-function formatDate(date: Date): string {
+export function formatDate(date: Date): string {
   moment.locale('fr');
   return moment(date).format('LL');
 }

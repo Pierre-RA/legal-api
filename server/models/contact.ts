@@ -3,21 +3,21 @@ import * as Mongoose from 'mongoose';
 interface IContactModel extends IContact, Mongoose.Document {}
 
 export interface IContact {
-  type: String,
-  email: String,
-  phone: String,
-  firstName: String,
-  lastName: String,
-  reason: String,
-  isMale: Boolean,
+  type: string,
+  email: string,
+  phone: string,
+  firstName: string,
+  lastName: string,
+  reason: string,
+  isMale: boolean,
   address: {
-    line1: String,
-    line2: String,
-    line3: String,
-    postCode: String,
-    city: String,
-    province: String,
-    country: String
+    line1: string,
+    line2: string,
+    line3: string,
+    postCode: string,
+    city: string,
+    province: string,
+    country: string
   }
 };
 

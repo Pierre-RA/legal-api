@@ -12,8 +12,8 @@ export interface IPayoff {
 export interface IContract {
   borrower: IContact,
   lender: IContact,
-  type: Number,
-  title: String,
+  type: number,
+  title: string,
   loan: {
     goal: string,
     hasGoal: boolean,

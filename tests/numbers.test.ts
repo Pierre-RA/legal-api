@@ -1,5 +1,5 @@
-import {} from "jest";
-import { expect, should } from "chai";
+import {} from 'jest';
+import { expect, should } from 'chai';
 import { formatNumber, getFinanceNumber } from '../server/models/numbers';
 
 describe('formatNumber 0', () => {
