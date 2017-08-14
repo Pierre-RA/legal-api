@@ -5,7 +5,7 @@ import { Contact, IContact, contactSchema } from './contact';
 interface IContractModel extends IContract, Mongoose.Document {}
 
 export interface IPayoff {
-  date: Date;
+  date: string;
   amount: number;
 }
 
@@ -18,16 +18,16 @@ export interface IContract {
     goal: string,
     hasGoal: boolean,
     hasLent: boolean,
-    dateLent: Date,
+    dateLent: string,
     currency: string,
     amount: number,
     interest: number,
     payoff: Array<IPayoff>,
-    length: Date,
-    extendNegotiationDate: Date,
-    silentDate: Date,
+    length: string,
+    extendNegotiationDate: string,
+    silentDate: string,
   },
-  date: Date,
+  date: string,
   place: string,
 }
 

@@ -40,7 +40,7 @@ export function exportContract(contract: IContract): any {
     hasInterest: contract.loan.interest > 0,
     payoff: payoff,
     payoffAmountCapital: payoffAmountCapital.toUpperCase(),
-    dateLent: formatDate(contract.loan.dateLent),
+    dateLent: formatDate(new Date(contract.loan.dateLent)),
     duration: firstDate.from(lastDate, true),
     extendNegotiationDuration: extendDate.from(lastDate, true),
     silentDuration: lastDate.from(silentDate, true),
