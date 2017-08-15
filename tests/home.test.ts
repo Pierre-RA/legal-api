@@ -13,3 +13,14 @@ describe("GET /", () => {
       });
   });
 });
+
+describe("GET /users", () => {
+  it("should return 200 OK", () => {
+    return request(app)
+      .get('/')
+      .expect(200)
+      .then(res => {
+        expect(res.body).have.property("message");
+      });
+  });
+});
