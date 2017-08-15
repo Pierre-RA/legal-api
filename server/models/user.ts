@@ -11,7 +11,10 @@ export interface IUser {
 
 export let userSchema = new Mongoose.Schema({
   name: String,
-  password: String,
+  password: {
+    type: String,
+    select: false,
+  },
   isAdmin: Boolean,
   contract: String,
 });
