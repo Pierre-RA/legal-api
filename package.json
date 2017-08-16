@@ -4,7 +4,7 @@
   "description": "api for legal stuff",
   "main": "/dist/main.js",
   "engines": {
-    "node": "8.1.4"
+    "node": "8.4.0"
   },
   "scripts": {
     "test": "jest --forceExit",
@@ -29,7 +29,11 @@
     },
     "moduleFileExtensions": [
       "ts",
-      "js"
+      "js",
+      "json",
+      "node",
+      "tsx",
+      "jsx"
     ],
     "transform": {
       "^.+\\.(ts|tsx)$": "./node_modules/ts-jest/preprocessor.js"
