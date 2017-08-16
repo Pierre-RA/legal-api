@@ -29,7 +29,11 @@
     },
     "moduleFileExtensions": [
       "ts",
-      "js"
+      "js",
+      "json",
+      "node",
+      "tsx",
+      "jsx"
     ],
     "transform": {
       "^.+\\.(ts|tsx)$": "./node_modules/ts-jest/preprocessor.js"
