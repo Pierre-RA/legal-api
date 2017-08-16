@@ -51,16 +51,6 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
   });
 });
 
-router.post('/', (req: express.Request, res: express.Response) => {
-  let user = new User(req.body);
-  user.save((err, doc) => {
-    if (err) {
-      return devError(err, res);
-    }
-    return res.json(doc);
-  });
-});
-
 router.put('/:id', (req: express.Request, res: express.Response) => {
   User.findOneAndUpdate(
     { '_id': req.params.id }, req.body, {new: true}, (err: any, doc: any) => {

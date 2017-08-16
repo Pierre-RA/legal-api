@@ -7,15 +7,14 @@ import * as passportJWT from 'passport-jwt';
 import * as mongoose from 'mongoose';
 
 import { JwtOptions } from './models/jwtoptions';
-import { MockupUsers } from './models/mockupUsers';
+import { User } from './models/user';
 
 import * as generatorController from './routes/generator.controller';
-import * as homeController from './routes/home.controller';
-import * as loginController from './routes/login.controller';
 
 import contactController from './routes/contacts/contact.controller';
 import contractController from './routes/contracts/contract.controller';
 import userController from './routes/users/user.controller';
+import homeController from './routes/home/home.controller';
 
 dotenv.config();
 const JwtStrategy = passportJWT.Strategy;
@@ -31,15 +30,16 @@ mongoose.connection.on('open', () => {
   console.log('MongoDB connection is open.');
 });
 
-const users = new MockupUsers();
-
 const strategy = new JwtStrategy(JwtOptions, function(payload: any, next: any) {
-  let user = users.findById(payload.id);
-  if (user) {
-    next(null, user);
-  } else {
-    next(null, false);
-  }
+  User.findOne({ _id: payload.id }, (err, user) => {
+    if (err) {
+      return next(null, false);
+    }
+    if (user) {
+      return next(null, user);
+    }
+      return next(null, false);
+  });
 });
 passport.use(strategy);
 
@@ -63,18 +63,11 @@ app.all('*', (req: express.Request, res: express.Response, next: express.NextFun
 });
 
 app.get(
-  '/',
-  homeController.index
-);
-app.post(
-  '/login',
-  loginController.login
-);
-app.get(
   '/generator/:fileId',
   passport.authenticate('jwt', {session: false}),
   generatorController.generate
 );
+app.use('/', homeController);
 app.use('/contacts', contactController);
 app.use('/contracts', contractController);
 app.use('/users', userController);
