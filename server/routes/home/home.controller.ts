@@ -52,7 +52,7 @@ router.post('/login', (req: express.Request, res: express.Response) => {
       }
       let payload = {id: user.id};
       let token = jwt.sign(payload, JwtOptions.secretOrKey);
-      return res.json({message: 'ok', token: token});
+      return res.json({user: user, token: token});
     });
   });
 });
@@ -67,7 +67,7 @@ router.post('/signup', checkAccessToken, (req: express.Request, res: express.Res
     if (err) {
       return devError(err, res);
     }
-    return res.json(doc);
+    return res.json({user: doc});
   });
 });
 
