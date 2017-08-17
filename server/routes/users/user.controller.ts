@@ -1,5 +1,6 @@
 import * as express from 'express';
 import * as mongoose from 'mongoose';
+import * as passport from 'passport';
 
 import { User } from '../../models/user';
 
@@ -10,6 +11,8 @@ const devError = (err: Error, res: express.Response) => {
     error: err
   });
 }
+
+router.use(passport.authenticate('jwt', {session: false}));
 
 router.get('/', (req: express.Request, res: express.Response) => {
   User.find({}, (err, docs) => {

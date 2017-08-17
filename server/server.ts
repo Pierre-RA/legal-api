@@ -1,10 +1,10 @@
 import * as express from 'express';
 import * as dotenv from 'dotenv';
 import * as bodyParser from 'body-parser';
+import * as mongoose from 'mongoose';
 import * as jwt from 'jsonwebtoken';
 import * as passport from 'passport';
 import * as passportJWT from 'passport-jwt';
-import * as mongoose from 'mongoose';
 
 import { JwtOptions } from './models/jwtoptions';
 import { User } from './models/user';
@@ -38,7 +38,7 @@ const strategy = new JwtStrategy(JwtOptions, function(payload: any, next: any) {
     if (user) {
       return next(null, user);
     }
-      return next(null, false);
+    return next(null, false);
   });
 });
 passport.use(strategy);
@@ -58,7 +58,7 @@ app.all('*', (req: express.Request, res: express.Response, next: express.NextFun
 });
 
 app.all('*', (req: express.Request, res: express.Response, next: express.NextFunction) => {
-  console.log(req.method + ' ' + req.url);
+  console.log(new Date() + ' ' + req.method + ' ' + req.url);
   next();
 });
 

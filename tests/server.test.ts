@@ -82,16 +82,19 @@ describe('login process', () => {
         token = res.body.token;
         return request(app)
           .get('/users/')
+          .set('Authorization', 'JWT ' + token)
           .expect(200)
       })
       .then(res => {
         return request(app)
           .get('/users/count')
+          .set('Authorization', 'JWT ' + token)
           .expect(200)
       })
       .then(res => {
         return request(app)
           .delete('/users/' + id)
+          .set('Authorization', 'JWT ' + token)
           .expect(200);
       });
   });
