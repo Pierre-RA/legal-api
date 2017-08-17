@@ -9,8 +9,6 @@ import * as passportJWT from 'passport-jwt';
 import { JwtOptions } from './models/jwtoptions';
 import { User } from './models/user';
 
-import * as generatorController from './routes/generator.controller';
-
 import contactController from './routes/contacts/contact.controller';
 import contractController from './routes/contracts/contract.controller';
 import userController from './routes/users/user.controller';
@@ -62,11 +60,6 @@ app.all('*', (req: express.Request, res: express.Response, next: express.NextFun
   next();
 });
 
-app.get(
-  '/generator/:fileId',
-  passport.authenticate('jwt', {session: false}),
-  generatorController.generate
-);
 app.use('/', homeController);
 app.use('/contacts', contactController);
 app.use('/contracts', contractController);
