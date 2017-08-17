@@ -43,7 +43,7 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
   });
 });
 
-router.put('/:id', (req: express.Request, res: express.Response) => {
+router.put('/:id', isOwnUser, (req: express.Request, res: express.Response) => {
   User.findOneAndUpdate(
     { '_id': req.params.id }, req.body, {new: true}, (err: any, doc: any) => {
     if (err) {
@@ -66,3 +66,19 @@ router.delete('/:id', (req: express.Request, res: express.Response) => {
 });
 
 export default router;
+
+function isOwnUser(req: express.Request, res: express.Response, next: express.NextFunction) {
+  if (!req.user) {
+    return next(false);
+  }
+  if (req.user.isAdmin) {
+    return next(true);
+  }
+  if (!req.params.id) {
+    return next(false);
+  }
+  if (req.user.id == req.params.id) {
+    return next(true);
+  }
+  return next(false);
+}
