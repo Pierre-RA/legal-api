@@ -42,7 +42,7 @@ router.post('/login', (req: express.Request, res: express.Response) => {
   
   User.findOne({ email: email}).select('+password').exec((err, user) => {
     if (!user) {
-      return res.json({message: 'user not found.'});
+      return res.status(401).json({message: 'user not found.'});
     }
     bcrypt.compare(password, user.password, (err, isValid) => {
       if (err || !isValid) {
