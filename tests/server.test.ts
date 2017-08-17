@@ -1,7 +1,10 @@
 import * as request from 'supertest';
+import * as dotenv from 'dotenv';
 import {} from 'jest';
 import { expect, should } from 'chai';
 import * as app from '../server/server';
+
+dotenv.config();
 
 describe('GET /', () => {
   it('should return 200 OK', () => {
@@ -56,9 +59,18 @@ describe('login process', () => {
     return request(app)
       .post('/signup')
       .send(user)
-      .expect(200)
+      .expect(401)
+      .then(res => {
+        let adminToken = process.env.ADMIN_TOKEN || '';
+        return request(app)
+          .post('/signup')
+          .send(user)
+          .set('Authorization', adminToken)
+          .expect(200)
+      })
       .then(res => {
         expect(res.body).have.property('_id');
+        expect(res.body).have.property('isAdmin');
         id = res.body._id;
         return request(app)
           .post('/login')

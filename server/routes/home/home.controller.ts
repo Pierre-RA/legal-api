@@ -1,8 +1,10 @@
 import * as express from 'express';
+import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import * as jwt from 'jsonwebtoken';
 
+dotenv.config();
 let pkg = require(__dirname + '/../../../package.json');
 import { JwtOptions } from '../../models/jwtoptions';
 import { User } from '../../models/user';
@@ -59,7 +61,7 @@ router.post('/login', (req: express.Request, res: express.Response) => {
  * POST /signup
  * register a new user
  */
-router.post('/signup', (req: express.Request, res: express.Response) => {
+router.post('/signup', checkAccessToken, (req: express.Request, res: express.Response) => {
   let user = new User(req.body);
   user.save((err, doc) => {
     if (err) {
@@ -70,3 +72,28 @@ router.post('/signup', (req: express.Request, res: express.Response) => {
 });
 
 export default router;
+
+function checkAccessToken(req: express.Request, res: express.Response, next: express.NextFunction) {
+  // OPEN_SIGNUP is true, then process to sign-up
+  if (process.env.OPEN_SIGNUP) {
+    return next();
+  }
+  
+  // No authorization set, return 401
+  if (!req.headers['authorization']) {
+    return res.status(401).json({
+      message: 'Open signup is disabled.'
+    });
+  }
+  
+  // Authorization ADMIN_TOKEN match, process to sign-up
+  if (req.headers['authorization'] == process.env.ADMIN_TOKEN) {
+    req.body.isAdmin = true;
+    return next();
+  }
+  
+  // Authorization failed
+  return res.status(401).json({
+    message: 'Open signup is disabled - wrong token'
+  });
+}
