@@ -69,9 +69,9 @@ describe('login process', () => {
           .expect(200)
       })
       .then(res => {
-        expect(res.body).have.property('_id');
-        expect(res.body).have.property('isAdmin');
-        id = res.body._id;
+        expect(res.body).have.property('user');
+        expect(res.body.user).have.property('isAdmin');
+        id = res.body.user._id;
         return request(app)
           .post('/login')
           .send({
