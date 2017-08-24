@@ -13,6 +13,7 @@ import contactController from './routes/contacts/contact.controller';
 import contractController from './routes/contracts/contract.controller';
 import userController from './routes/users/user.controller';
 import homeController from './routes/home/home.controller';
+import tokenController from './routes/tokens/token.controller';
 
 dotenv.config();
 const JwtStrategy = passportJWT.Strategy;
@@ -64,6 +65,7 @@ app.use('/', homeController);
 app.use('/contacts', contactController);
 app.use('/contracts', contractController);
 app.use('/users', userController);
+app.use('/tokens', tokenController);
 
 app.listen(app.get('port'), () => {
   console.log(('App is running at http://localhost:%d in %s mode'),

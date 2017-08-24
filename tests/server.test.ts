@@ -29,6 +29,10 @@ describe('GET /users', () => {
 });
 
 describe('login process', () => {
+  let user = {
+    email: 'test@test.com',
+    password: 'simple-test-password',
+  };
   it('POST /login should return 401 with no data', () => {
     return request(app)
       .post('/login')
@@ -49,25 +53,27 @@ describe('login process', () => {
         expect(res.body).have.property('message');
       });
   });
-  it('POST /signup complex process', () => {
-    let user = {
-      email: 'test@test.com',
-      password: 'simple-test-password',
-    };
-    let id;
-    let token;
+  it('POST /signup should fail', () => {
     return request(app)
       .post('/signup')
       .send(user)
-      .expect(401)
-      .then(res => {
-        let adminToken = process.env.ADMIN_TOKEN || '';
-        return request(app)
-          .post('/signup')
-          .send(user)
-          .set('Authorization', adminToken)
-          .expect(200)
-      })
+      .expect(401);
+  });
+  it('GET /tokens/count should fail', () => {
+    return request(app)
+      .post('/tokens/count')
+      .send(user)
+      .expect(401);
+  });
+  it('POST /signup complex process', () => {
+    let id;
+    let token;
+    let adminToken = process.env.ADMIN_TOKEN || '';
+    return request(app)
+      .post('/signup')
+      .send(user)
+      .set('Authorization', adminToken)
+      .expect(200)
       .then(res => {
         expect(res.body).have.property('user');
         expect(res.body.user).have.property('isAdmin');
@@ -98,12 +104,37 @@ describe('login process', () => {
           .expect(200)
       })
       .then(res => {
+        // GET /users/count
         return request(app)
           .get('/users/count')
           .set('Authorization', 'JWT ' + token)
           .expect(200)
       })
       .then(res => {
+        // GET /tokens/count
+        return request(app)
+          .get('/tokens/count')
+          .set('Authorization', 'JWT ' + token)
+          .expect(200)
+      })
+      .then(res => {
+        // POST /tokens
+        return request(app)
+          .post('/tokens')
+          .set('Authorization', 'JWT ' + token)
+          .expect(200)
+      })
+      .then(res => {
+        // DELETE /tokens/:id
+        expect(res.body).have.property('_id');
+        let id = res.body._id;
+        return request(app)
+          .delete('/tokens/' + id)
+          .set('Authorization', 'JWT ' + token)
+          .expect(200)
+      })
+      .then(res => {
+        // DELETE /users/:id
         return request(app)
           .delete('/users/' + id)
           .set('Authorization', 'JWT ' + token)
