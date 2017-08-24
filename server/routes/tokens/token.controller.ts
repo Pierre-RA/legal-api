@@ -59,7 +59,10 @@ export default router;
 
 function isAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
   if (!req.user) {
-    return next(false);
+    return next('no user present.');
   }
-  return req.user.isAdmin;
+  if (req.user.isAdmin) {
+    return next();
+  }
+  return next('not an admin.');
 }
