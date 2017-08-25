@@ -34,6 +34,18 @@ router.get('/count', (req: express.Request, res: express.Response) => {
   });
 });
 
+router.get('/own', (req: express.Request, res: express.Response) => {
+  if (!req.user) {
+    return devError(new Error('No user found.'), res);
+  }
+  User.findOne({ _id: req.user.id }, (err, doc) => {
+    if (err) {
+      return devError(err, res);
+    }
+    return res.json(doc);
+  });
+});
+
 router.get('/:id', (req: express.Request, res: express.Response) => {
   User.findOne({ _id: req.params.id }, (err, doc) => {
     if (err) {
@@ -53,7 +65,7 @@ router.put('/:id', isOwnUser, (req: express.Request, res: express.Response) => {
   });
 });
 
-router.delete('/:id', (req: express.Request, res: express.Response) => {
+router.delete('/:id', isOwnUser, (req: express.Request, res: express.Response) => {
   User.findByIdAndRemove(req.params.id, {}, (err, doc) => {
     if (err) {
       return devError(err, res);
