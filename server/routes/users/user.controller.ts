@@ -84,13 +84,13 @@ function isOwnUser(req: express.Request, res: express.Response, next: express.Ne
     return next(false);
   }
   if (req.user.isAdmin) {
-    return next(true);
+    return next();
   }
   if (!req.params.id) {
     return next(false);
   }
   if (req.user.id == req.params.id) {
-    return next(true);
+    return next();
   }
   return next(false);
 }
