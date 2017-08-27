@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 
@@ -34,6 +35,7 @@ router.get('/count', (req: express.Request, res: express.Response) => {
   });
 });
 
+router.options('/own', cors());
 router.get('/own', (req: express.Request, res: express.Response) => {
   if (!req.user) {
     return devError(new Error('No user found.'), res);

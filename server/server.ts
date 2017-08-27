@@ -1,5 +1,6 @@
-import * as express from 'express';
 import * as dotenv from 'dotenv';
+import * as express from 'express';
+import * as cors from 'cors';
 import * as bodyParser from 'body-parser';
 import * as mongoose from 'mongoose';
 import * as jwt from 'jsonwebtoken';
