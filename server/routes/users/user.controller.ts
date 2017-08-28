@@ -13,6 +13,7 @@ const devError = (err: Error, res: express.Response) => {
   });
 }
 
+router.options('/own', cors());
 router.use(passport.authenticate('jwt', {session: false}));
 
 router.get('/', (req: express.Request, res: express.Response) => {
@@ -35,7 +36,6 @@ router.get('/count', (req: express.Request, res: express.Response) => {
   });
 });
 
-router.options('/own', cors());
 router.get('/own', (req: express.Request, res: express.Response) => {
   if (!req.user) {
     return devError(new Error('No user found.'), res);
