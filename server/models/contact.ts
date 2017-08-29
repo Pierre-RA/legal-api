@@ -5,7 +5,10 @@ interface IContactModel extends IContact, Mongoose.Document {}
 export interface IContact {
   type: string,
   email: string,
-  phone: string,
+  phone: {
+    country: string,
+    number: string,
+  },
   firstName: string,
   lastName: string,
   reason: string,
@@ -24,7 +27,10 @@ export interface IContact {
 export let contactSchema = new Mongoose.Schema({
   type: String,
   email: String,
-  phone: String,
+  phone: {
+    country: String,
+    number: String,
+  },
   firstName: String,
   lastName: String,
   reason: String,
