@@ -7,7 +7,7 @@ export interface IContact {
   email: string,
   phone: {
     country: string,
-    number: string,
+    phone: string,
   },
   firstName: string,
   lastName: string,
