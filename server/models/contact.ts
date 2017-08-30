@@ -29,7 +29,7 @@ export let contactSchema = new Mongoose.Schema({
   email: String,
   phone: {
     country: String,
-    number: String,
+    phone: String,
   },
   firstName: String,
   lastName: String,
