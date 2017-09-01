@@ -13,6 +13,9 @@ const devError = (err: Error, res: express.Response) => {
   });
 }
 
+router.options('/', cors());
+router.options('/:id', cors());
+router.options('/count', cors());
 router.options('/own', cors());
 router.use(passport.authenticate('jwt', {session: false}));
 
