@@ -1,7 +1,7 @@
 import * as express from 'express';
 
 export default function getQuery(req: express.Request, params?: Object) {
-  let query = params || {};
+  let query: any = params || {};
   if (!req['user']) {
     return null;
   }

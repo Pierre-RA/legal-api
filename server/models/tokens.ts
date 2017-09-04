@@ -14,10 +14,11 @@ export let tokenSchema = new Mongoose.Schema({
   email: String,
   date: {
     type: Date,
-    default: Date.now, expires: '1d'
+    default: Date.now, expires: 86400
   },
 }).pre('save', function(next) {
-  this.token = hat.rack();
+  let rack = hat.rack();
+  this.value = rack();
   return next();
 });
 

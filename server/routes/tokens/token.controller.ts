@@ -1,4 +1,5 @@
 import * as express from 'express';
+import * as cors from 'cors';
 import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 
@@ -13,6 +14,9 @@ const devError = (err: Error, res: express.Response) => {
   });
 }
 
+router.options('/', cors());
+router.options('/count', cors());
+router.options('/:id', cors());
 router.use(passport.authenticate('jwt', {session: false}));
 
 router.get('/', isAdmin, (req: express.Request, res: express.Response) => {
@@ -36,7 +40,7 @@ router.get('/count', isAdmin, (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', isAdmin, (req: express.Request, res: express.Response) => {
-  let token = new Token(req.body.token);
+  let token = new Token(req.body);
   token.save((err: any, doc: any) => {
     if (err) {
       return devError(err, res);
