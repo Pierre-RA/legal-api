@@ -34,7 +34,24 @@ router.get('/', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/count', (req: express.Request, res: express.Response) => {
-  Contact.count((err: any, count: any) => {
+  let query = getQuery(req);
+  if (!query) {
+    return res.status(401).json({ message: 'unauthorized.' });
+  }
+  // Contact.aggregate([{
+  //   $group: {
+  //     owner: req.user._id,
+  //     count: {$sum: 1}
+  //   }
+  // }], (err: any, count: any) => {
+  //   if (err) {
+  //     return devError(err, res);
+  //   }
+  //   return res.json({
+  //     count: count
+  //   });
+  // });
+  Contact.count(query, (err: any, count: any) => {
     if (err) {
       return devError(err, res);
     }
@@ -45,7 +62,11 @@ router.get('/count', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/count/:type', (req: express.Request, res: express.Response) => {
-  Contact.find({ type: req.params.type }).count((err, count) => {
+  let query = getQuery(req, { type: req.params.type });
+  if (!query) {
+    return res.status(401).json({ message: 'unauthorized.' });
+  }
+  Contact.find(query).count((err, count) => {
     if (err) {
       return devError(err, res);
     }
@@ -56,7 +77,11 @@ router.get('/count/:type', (req: express.Request, res: express.Response) => {
 });
 
 router.get('/:id', (req: express.Request, res: express.Response) => {
-  Contact.findOne({ _id: req.params.id }, (err, doc) => {
+  let query = getQuery(req, { _id: req.params.id });
+  if (!query) {
+    return res.status(401).json({ message: 'unauthorized.' });
+  }
+  Contact.findOne(query, (err, doc) => {
     if (err) {
       return devError(err, res);
     }

@@ -221,6 +221,16 @@ describe('Contacts', () => {
       .send(contact)
       .expect(200)
   });
+  it('should count 1', () => {
+    return request(app)
+      .get('/users/count')
+      .set('Authorization', token)
+      .expect(200)
+      .then(res => {
+        expect(res.body).have.property('count');
+        expect(res.body.count).equal(1);
+      });
+  });
   it('should remove', () => {
     return request(app)
       .delete('/users/' + id)
