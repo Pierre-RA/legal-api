@@ -142,3 +142,89 @@ describe('login process', () => {
       });
   });
 });
+
+describe('Contacts', () => {
+  let user = {
+    email: 'test2@test.com',
+    password: 'simple-test-password',
+  };
+  let contact = {
+    type: 'moral',
+    email: 'test@test.com',
+    phone: {
+        phone: "791234567",
+        country: 'CH'
+    },
+    firstName: '',
+    lastName: '',
+    reason: 'test',
+    isMale: false,
+    address: {
+        country: 'Switzerland',
+        province: '',
+        city: 'Geneva',
+        postCode: '1200',
+        line3: '',
+        line2: '',
+        line1: 'a place'
+    },
+  };
+  let id;
+  let token;
+  let contactId;
+  let adminToken = process.env.ADMIN_TOKEN || '';
+  it('should register', () => {
+    return request(app)
+      .post('/signup')
+      .send(user)
+      .set('Authorization', adminToken)
+      .expect(200)
+      .then(res => {
+        expect(res.body).have.property('user');
+        expect(res.body.user).have.property('isAdmin');
+        id = res.body.user._id;
+    });
+  });
+  it('should login', () => {
+    return request(app)
+      .post('/login')
+      .send(user)
+      .expect(200)
+      .then(res => {
+        expect(res.body).have.property('token');
+        expect(res.body).have.property('user');
+        token = 'JWT ' + res.body.token;
+      });
+  });
+  it('should add contact', () => {
+    return request(app)
+      .post('/contacts')
+      .set('Authorization', token)
+      .send(contact)
+      .expect(200)
+      .then(res => {
+        expect(res.body).have.property('_id');
+        contactId = res.body._id;
+      });
+  });
+  it('should get own contacts', () => {
+    return request(app)
+      .get('/contacts')
+      .set('Authorization', token)
+      .expect(200);
+  });
+  contact.reason = 'Other';
+  it('should update contact', () => {
+    return request(app)
+      .put('/contacts/' + contactId)
+      .set('Authorization', token)
+      .send(contact)
+      .expect(200)
+  });
+  it('should remove', () => {
+    return request(app)
+      .delete('/users/' + id)
+      .set('Authorization', token)
+      .expect(200);
+  });
+});

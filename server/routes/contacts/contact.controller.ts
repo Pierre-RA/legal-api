@@ -66,6 +66,7 @@ router.get('/:id', (req: express.Request, res: express.Response) => {
 
 router.post('/', (req: express.Request, res: express.Response) => {
   let contact = new Contact(req.body);
+  contact.owner = req.user._id;
   contact.save((err: any, doc: any) => {
     if (err) {
       return devError(err, res);
@@ -102,9 +103,9 @@ function getQuery(req: express.Request, params?: Object) {
     return null;
   }
   if (req.user.isAdmin) {
-    return params;
+    return query;
   }
-  if (req.user._id) {
+  if (!req.user._id) {
     return null;
   }
   query['owner'] = req.user._id;
