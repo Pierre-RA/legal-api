@@ -126,6 +126,7 @@ describe('login process', () => {
         // POST /tokens
         return request(app)
           .post('/tokens')
+          .send({ email: 'test@foo.com' })
           .set('Authorization', 'JWT ' + token)
           .expect(200)
       })
@@ -240,11 +241,18 @@ describe('Contacts', () => {
       .expect(200)
       .then(res => {
         expect(res.body).have.property('count');
-        expect(res.body.count).equal(1);
+        expect(res.body.count).above(0);
       });
   });
+  
+  it('should remove contact', () => {
+    return request(app)
+      .delete('/contacts/' + contactId)
+      .set('Authorization', token)
+      .expect(200);
+  });
 
-  it('should remove', () => {
+  it('should remove user', () => {
     return request(app)
       .delete('/users/' + id)
       .set('Authorization', token)
@@ -393,8 +401,15 @@ describe('Contracts', () => {
       .expect(200)
       .then(res => {
         expect(res.body).have.property('count');
-        expect(res.body.count).equal(1);
+        expect(res.body.count).above(0);
       });
+  });
+  
+  it('should remove contract', () => {
+    return request(app)
+      .delete('/contracts/' + contractId)
+      .set('Authorization', token)
+      .expect(200);
   });
 
   it('should remove', () => {

@@ -5,11 +5,13 @@ interface ITokenModel extends IToken, Mongoose.Document {}
 
 export interface IToken {
   value: string,
+  email: string,
   date: string,
 }
 
 export let tokenSchema = new Mongoose.Schema({
   value: String,
+  email: String,
   date: {
     type: Date,
     default: Date.now, expires: '1d'

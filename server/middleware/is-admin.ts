@@ -6,10 +6,10 @@ export default function isAdmin(
   next: express.NextFunction
 ) {
   if (!req['user']) {
-    return next(false);
+    return next('no user.');
   }
   if (req['user'].isAdmin) {
     return next();
   }
-  return next(false);
+  return next('provided user is not an admin.');
 }

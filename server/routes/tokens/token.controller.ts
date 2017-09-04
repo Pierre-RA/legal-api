@@ -2,6 +2,7 @@ import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 
+import isAdmin from '../../middleware/is-admin';
 import { Token } from '../../models/tokens';
 
 const router: express.Router = express.Router();
@@ -35,7 +36,7 @@ router.get('/count', isAdmin, (req: express.Request, res: express.Response) => {
 });
 
 router.post('/', isAdmin, (req: express.Request, res: express.Response) => {
-  let token = new Token();
+  let token = new Token(req.body.token);
   token.save((err: any, doc: any) => {
     if (err) {
       return devError(err, res);
@@ -56,13 +57,3 @@ router.delete('/:id', isAdmin, (req: express.Request, res: express.Response) => 
 });
 
 export default router;
-
-function isAdmin(req: express.Request, res: express.Response, next: express.NextFunction) {
-  if (!req.user) {
-    return next('no user present.');
-  }
-  if (req.user.isAdmin) {
-    return next();
-  }
-  return next('not an admin.');
-}
