@@ -1,20 +1,31 @@
 import * as express from 'express';
+import * as cors from 'cors';
+import * as passport from 'passport';
 import * as mongoose from 'mongoose';
 
 import * as fs from 'fs';
 import * as Docxtemplater from 'docxtemplater';
 import * as JSZip from 'jszip';
 
+import getQuery from '../../middleware/get-query';
 import Contract from '../../models/contract';
 import { exportContract } from '../../models/export';
 
 const router: express.Router = express.Router();
 
 const devError = (err: Error, res: express.Response) => {
+  console.log(err);
   return res.status(400).json({
     error: err
   });
 }
+
+router.options('/', cors());
+router.options('/count', cors());
+router.options('/count/:type', cors());
+router.options('/export/:id', cors());
+router.options('/:id', cors());
+router.use(passport.authenticate('jwt', {session: false}));
 
 router.get('/', (req: express.Request, res: express.Response) => {
   Contract.find({}, (err, docs) => {
@@ -52,6 +63,7 @@ router.get('/export/:id', (req: express.Request, res: express.Response) => {
     if (err) {
       return devError(err, res);
     }
+    // TODO: remove comment
     // return res.json(exportContract(doc));
     let data = exportContract(doc);
     let template = __dirname + '/../../templates/contrat_pret_cro.docx';

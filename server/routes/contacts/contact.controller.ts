@@ -3,7 +3,7 @@ import * as cors from 'cors';
 import * as passport from 'passport';
 import * as mongoose from 'mongoose';
 
-import isAdmin from '../../middleware/is-admin';
+import getQuery from '../../middleware/get-query';
 import { Contact } from '../../models/contact';
 
 const router: express.Router = express.Router();
@@ -38,19 +38,6 @@ router.get('/count', (req: express.Request, res: express.Response) => {
   if (!query) {
     return res.status(401).json({ message: 'unauthorized.' });
   }
-  // Contact.aggregate([{
-  //   $group: {
-  //     owner: req.user._id,
-  //     count: {$sum: 1}
-  //   }
-  // }], (err: any, count: any) => {
-  //   if (err) {
-  //     return devError(err, res);
-  //   }
-  //   return res.json({
-  //     count: count
-  //   });
-  // });
   Contact.count(query, (err: any, count: any) => {
     if (err) {
       return devError(err, res);
@@ -101,8 +88,12 @@ router.post('/', (req: express.Request, res: express.Response) => {
 });
 
 router.put('/:id', (req: express.Request, res: express.Response) => {
+  let query = getQuery(req, { _id: req.params.id });
+  if (!query) {
+    return res.status(401).json({ message: 'unauthorized.' });
+  }
   Contact.findOneAndUpdate(
-    { '_id': req.params.id }, req.body, {new: true}, (err: any, doc: any) => {
+    query, req.body, {new: true}, (err: any, doc: any) => {
     if (err) {
       return devError(err, res);
     }
@@ -121,20 +112,5 @@ router.delete('/:id', (req: express.Request, res: express.Response) => {
     });
   });
 });
-
-function getQuery(req: express.Request, params?: Object) {
-  let query = params || {};
-  if (!req.user) {
-    return null;
-  }
-  if (req.user.isAdmin) {
-    return query;
-  }
-  if (!req.user._id) {
-    return null;
-  }
-  query['owner'] = req.user._id;
-  return query;
-}
 
 export default router;
