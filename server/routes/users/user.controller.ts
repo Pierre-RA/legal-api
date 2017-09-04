@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 
+import isOwnUser from '../../middleware/own-user';
 import { User } from '../../models/user';
 
 const router: express.Router = express.Router();
@@ -84,18 +85,4 @@ router.delete('/:id', isOwnUser, (req: express.Request, res: express.Response) =
 
 export default router;
 
-function isOwnUser(req: express.Request, res: express.Response, next: express.NextFunction) {
-  if (!req.user) {
-    return next(false);
-  }
-  if (req.user.isAdmin) {
-    return next();
-  }
-  if (!req.params.id) {
-    return next(false);
-  }
-  if (req.user.id == req.params.id) {
-    return next();
-  }
-  return next(false);
-}
+
