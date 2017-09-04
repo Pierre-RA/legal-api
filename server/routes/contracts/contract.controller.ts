@@ -20,6 +20,27 @@ const devError = (err: Error, res: express.Response) => {
   });
 }
 
+router.get('/export/:id', (req: express.Request, res: express.Response) => {
+  Contract.findOne({ _id: req.params.id }, (err, doc) => {
+    if (err) {
+      return devError(err, res);
+    }
+    // TODO: remove comment
+    // return res.json(exportContract(doc));
+    let data = exportContract(doc);
+    let template = __dirname + '/../../templates/contrat_pret_cro.docx';
+    let file = generateFile(template, data);
+    let filename = doc.title + '.docx';
+    let mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+    res.writeHead(200, {
+      'Content-Type': mimetype,
+      'Content-disposition': 'attachment;filename=' + filename,
+      'Content-Length': file.length
+    });
+    return res.end(new Buffer(file, 'binary'));
+  });
+});
+
 router.options('/', cors());
 router.options('/count', cors());
 router.options('/count/:type', cors());
@@ -58,26 +79,26 @@ router.get('/count/:type', (req: express.Request, res: express.Response) => {
   });
 });
 
-router.get('/export/:id', (req: express.Request, res: express.Response) => {
-  Contract.findOne({ _id: req.params.id }, (err, doc) => {
-    if (err) {
-      return devError(err, res);
-    }
-    // TODO: remove comment
-    // return res.json(exportContract(doc));
-    let data = exportContract(doc);
-    let template = __dirname + '/../../templates/contrat_pret_cro.docx';
-    let file = generateFile(template, data);
-    let filename = doc.title + '.docx';
-    let mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
-    res.writeHead(200, {
-      'Content-Type': mimetype,
-      'Content-disposition': 'attachment;filename=' + filename,
-      'Content-Length': file.length
-    });
-    return res.end(new Buffer(file, 'binary'));
-  });
-});
+// router.get('/export/:id', (req: express.Request, res: express.Response) => {
+//   Contract.findOne({ _id: req.params.id }, (err, doc) => {
+//     if (err) {
+//       return devError(err, res);
+//     }
+//     // TODO: remove comment
+//     // return res.json(exportContract(doc));
+//     let data = exportContract(doc);
+//     let template = __dirname + '/../../templates/contrat_pret_cro.docx';
+//     let file = generateFile(template, data);
+//     let filename = doc.title + '.docx';
+//     let mimetype = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
+//     res.writeHead(200, {
+//       'Content-Type': mimetype,
+//       'Content-disposition': 'attachment;filename=' + filename,
+//       'Content-Length': file.length
+//     });
+//     return res.end(new Buffer(file, 'binary'));
+//   });
+// });
 
 router.get('/:id', (req: express.Request, res: express.Response) => {
   Contract.findOne({ _id: req.params.id }, (err, doc) => {
