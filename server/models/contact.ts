@@ -21,7 +21,8 @@ export interface IContact {
     city: string,
     province: string,
     country: string
-  }
+  },
+  owner: string,
 };
 
 export let contactSchema = new Mongoose.Schema({
@@ -43,7 +44,8 @@ export let contactSchema = new Mongoose.Schema({
     city: String,
     province: String,
     country: String
-  }
+  },
+  owner: String,
 });
 
 export let Contact = Mongoose.model<IContactModel>('Contact', contactSchema);

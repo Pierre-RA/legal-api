@@ -3,6 +3,7 @@ import * as cors from 'cors';
 import * as passport from 'passport';
 import * as mongoose from 'mongoose';
 
+import isAdmin from '../../middleware/is-admin';
 import { Contact } from '../../models/contact';
 
 const router: express.Router = express.Router();
@@ -20,7 +21,11 @@ router.options('/:id', cors());
 router.use(passport.authenticate('jwt', {session: false}));
 
 router.get('/', (req: express.Request, res: express.Response) => {
-  Contact.find({}, (err, docs) => {
+  let query = getQuery(req);
+  if (!query) {
+    return res.status(401).json({ message: 'unauthorized.' });
+  }
+  Contact.find(query, (err, docs) => {
     if (err) {
       return devError(err, res);
     }
@@ -90,5 +95,20 @@ router.delete('/:id', (req: express.Request, res: express.Response) => {
     });
   });
 });
+
+function getQuery(req: express.Request, params?: Object) {
+  let query = params || {};
+  if (!req.user) {
+    return null;
+  }
+  if (req.user.isAdmin) {
+    return params;
+  }
+  if (req.user._id) {
+    return null;
+  }
+  query['owner'] = req.user._id;
+  return query;
+}
 
 export default router;
