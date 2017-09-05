@@ -4,6 +4,7 @@ import * as mongoose from 'mongoose';
 import * as passport from 'passport';
 
 import isAdmin from '../../middleware/is-admin';
+import sendMail from '../../utils/email';
 import { Token } from '../../models/tokens';
 
 const router: express.Router = express.Router();
@@ -42,6 +43,7 @@ router.get('/count', isAdmin, (req: express.Request, res: express.Response) => {
 router.post('/', isAdmin, (req: express.Request, res: express.Response) => {
   let token = new Token(req.body);
   token.save((err: any, doc: any) => {
+    sendMail(doc);
     if (err) {
       return devError(err, res);
     }
