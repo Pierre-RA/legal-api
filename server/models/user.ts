@@ -10,11 +10,19 @@ export interface IUser {
   email: string,
   password: string,
   isAdmin: boolean,
-  contract: string,
+  image: string,
+  subscription: {
+    plan: string,
+    since: string,
+    validity: string,
+  }
 }
 
 export let userSchema = new Mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    required: true,
+  },
   email: {
     type: String,
     unique: true,
@@ -27,7 +35,15 @@ export let userSchema = new Mongoose.Schema({
     required: true,
   },
   isAdmin: Boolean,
-  contract: String,
+  subscription: {
+    plan: {
+      type: String,
+      default: 'free',
+    },
+    since: String,
+    validity: String,
+  },
+  image: String,
 }).pre('save', function(next) {
   if (!this.isModified('password')) {
     return next();

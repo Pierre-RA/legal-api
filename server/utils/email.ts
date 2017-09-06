@@ -15,10 +15,12 @@ export default function sendMail(document: any) {
       process.env.DOMAIN + 'register?token=' +
       document['value']
   }
-  mg.messages().send(data, (err: any, body: any) => {
-    if (err) {
-      console.error(err);
-    }
-    console.log(body);
-  })
+  if (process.env.NODE_ENV != 'test') {
+    mg.messages().send(data, (err: any, body: any) => {
+      if (err) {
+        console.error(err);
+      }
+      console.log(body);
+    });
+  }
 }

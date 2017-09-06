@@ -32,6 +32,7 @@ describe('login process', () => {
   let user = {
     email: 'test@test.com',
     password: 'simple-test-password',
+    name: 'Marco Polo',
   };
   let id;
   let token;
@@ -141,14 +142,12 @@ describe('login process', () => {
       .then(res => {
         expect(res.body).have.property('_id');
         let tokenId = res.body._id;
+        // DELETE /tokens/:id
+        return request(app)
+          .delete('/tokens/' + tokenId)
+          .set('Authorization', 'JWT ' + token)
+          .expect(200);
       });
-  });
-
-  it('DELETE /tokens/:id', () => {
-    return request(app)
-      .delete('/tokens/' + id)
-      .set('Authorization', 'JWT ' + token)
-      .expect(200)
   });
 
   it('DELETE /users/:id', () => {
@@ -163,6 +162,7 @@ describe('Contacts', () => {
   let user = {
     email: 'test2@test.com',
     password: 'simple-test-password',
+    name: 'Marco Polo',
   };
   let contact = {
     type: 'moral',
@@ -274,6 +274,7 @@ describe('Contracts', () => {
   let user = {
     email: 'test3@test.com',
     password: 'simple-test-password',
+    name: 'Marco Polo',
   };
   let contract = {
     "type": 0,
