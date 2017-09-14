@@ -55,10 +55,10 @@ export function getTitle(contact: IContact): string {
 export function getPhysicalTitle(contact: IContact): string {
   let result = '';
   // result += '<w:p><w:r><w:t>';
-  result += contact.isMale ? 'Monsieur' : 'Madame';
+  result += contact.gender == 'male' ? 'Monsieur' : 'Madame';
   result += ' ' + contact.firstName + ' ' + contact.lastName;
   result += ' ';
-  result += contact.isMale ? 'domicilié' : 'domiciliée';
+  result += contact.gender == 'male' ? 'domicilié' : 'domiciliée';
   result += ' ';
   result += getAddress(contact);
   // result += '</w:t></w:r></w:p>';

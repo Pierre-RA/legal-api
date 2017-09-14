@@ -12,7 +12,7 @@ export interface IContact {
   firstName: string,
   lastName: string,
   reason: string,
-  isMale: boolean,
+  gender: string,
   address: {
     line1: string,
     line2: string,
@@ -35,7 +35,7 @@ export let contactSchema = new Mongoose.Schema({
   firstName: String,
   lastName: String,
   reason: String,
-  isMale: Boolean,
+  gender: String,
   address: {
     line1: String,
     line2: String,
