@@ -295,11 +295,11 @@ describe('Contracts', () => {
         },
         "_id": "59818d4319a8fe001c38ff6e",
         "type": "physical",
-        "email": "lucien.chappuis@bluewin.ch",
+        "email": "lucienne.chappuis@bluewin.ch",
         "firstName": "Lucienne",
         "lastName": "Chappuis",
         "reason": "",
-        "isMale": false,
+        "gender": "female",
         "__v": 0
     },
     "lender": {
@@ -322,7 +322,7 @@ describe('Contracts', () => {
         "firstName": "",
         "lastName": "",
         "reason": "anthillsolutions",
-        "isMale": false,
+        "gender": null,
         "__v": 0
     },
     "loan": {

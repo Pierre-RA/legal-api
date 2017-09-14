@@ -66,7 +66,7 @@ let contact = {
   "firstName": "Lucien",
   "lastName": "Chappuis",
   "reason": "",
-  "isMale": true,
+  "gender": "male",
   "__v": 0,
   "_id": "59818d4319a8fe001c38ff6e",
   "address": {
@@ -112,7 +112,7 @@ let contract = {
     "firstName": "Lucien",
     "lastName": "Chappuis",
     "reason": "",
-    "isMale": true,
+    "gender": "male",
     "__v": 0,
     "_id": "59818d4319a8fe001c38ff6e",
     "address": {
