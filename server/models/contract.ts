@@ -14,6 +14,8 @@ export interface IContract {
   lender: IContact,
   type: number,
   title: string,
+  country: string,
+  canton: string,
   loan: {
     goal: string,
     hasGoal: boolean,
@@ -54,6 +56,8 @@ let contractSchema = new Mongoose.Schema({
   },
   date: Date,
   place: String,
+  country: String,
+  canton: String
 });
 
 const Contract = Mongoose.model<IContractModel>('Contract', contractSchema);

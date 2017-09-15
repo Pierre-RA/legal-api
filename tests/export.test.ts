@@ -105,6 +105,8 @@ let contract = {
   "_id": "59849e9a6dea17001c02f01e",
   "type": 0,
   "title": "Contrat de test",
+  "country": "CH",
+  "canton": "GE",
   "borrower": {
     "type": "physical",
     "email": "lucien.chappuis@bluewin.ch",
